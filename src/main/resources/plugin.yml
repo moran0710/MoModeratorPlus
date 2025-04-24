@@ -3,3 +3,14 @@ version: '1.0-SNAPSHOT'
 main: top.molab.minecraft.moModeratorPlus.MoModeratorPlus
 api-version: '1.20'
 load: STARTUP
+softdepend: [ "PlaceholderAPI" ]
+commands:
+  MoModeratorPlus:
+    description: MoModeratorPlus相关命令
+    usage: /MoModeratorPlus
+    permission: moModPlus.admin
+    aliases:
+      - MoModPlus
+      - mmp
+      - mm+
+
