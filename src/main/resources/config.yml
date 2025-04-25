@@ -11,6 +11,13 @@ global:
   # 格式化时间字符串
   # yyyy：年 MM：月 dd：日 HH：时 mm：分 ss：秒
   time-format: "yyyy-MM-dd HH:mm:ss"
+  time-left:
+    # 在显示剩余时间（${Duration}）的时候，你希望使用的时间单位字符串？
+    day: 日
+    hour: 小时
+    minute: 分钟
+    second: 秒
+
   # 默认封禁提示
   default-kick-message: "违反Example服务器玩家守则"
 
@@ -113,6 +120,54 @@ ban:
       - "========================================="
       - "玩家${Player}被Example服务器封禁！"
       - "封禁理由：${Reason}"
+      - "封禁时间：${EffectiveTime} 封禁时长：${Duration} 解封时间：${ExpireTime}"
+      - "操作人：${Operator}"
+      - "========================================="
+
+banip:
+  # 是否启用MoModPlus BanIP命令？
+  # 启用后，允许使用/mm banip <玩家名> <理由>，和后续的Ban配置
+  # 默认为true
+  enable: true
+
+  # 是否复写原版的BanIp命令？
+  # 启用后，MoModPlus会接管原版的/banip和/ban-ip命令
+  # 默认为false
+  override: false
+
+  # 是否强制输入Ban理由？
+  # 启用后，玩家必须输入理由才能Ban
+  # 默认为false
+  force-reason: false
+
+  # Ban的 BanID的前缀是什么？
+  ban-id-prefix: "#B-"
+  # 设置被ban连接时的信息
+  # 允许的格式化信息：
+  # ${Player} 玩家名
+  # ${BanID} BanID
+  # ${EffectiveTime} 封禁开始时间
+  # ${ExpireTime} 解封时间
+  # ${Reason} 封禁理由
+  # ${Operator} 操作人ID
+  # ${Duration} 处罚总时长
+  message:
+    - "你已经被Example服务器封禁IP！！"
+    - "BANID：${BanID} 玩家名：${Player}"
+    - "封禁时间：${EffectiveTime} 封禁时长：${Duration} 解封时间：${ExpireTime}"
+    - "封禁理由：${Reason}"
+    - "操作人：${Operator}"
+    - "请访问https://example.com自助申诉！"
+
+  # 全服公告，向全服通报封禁信息
+  announce:
+    # 是否启用？
+    enable: true
+    # 全服广播消息
+    message:
+      - "========================================="
+      - "玩家${Player}被Example服务器封禁IP！"
+      - "封禁理由：${Reason}"
       - "封禁时间：${EffectiveTime} 解封时间：${ExpireTime}"
       - "操作人：${Operator}"
       - "========================================="
@@ -148,7 +203,7 @@ mute:
   message:
     - "你已经被Example服务器禁言！！"
     - "BANID：${BanID} 玩家名：${Player}"
-    - "封禁时间：${EffectiveTime} 解封时间：${ExpireTime}"
+    - "封禁时间：${EffectiveTime} 封禁时长：${Duration} 解封时间：${ExpireTime}"
     - "封禁理由：${Reason}"
     - "操作人：${Operator}"
 

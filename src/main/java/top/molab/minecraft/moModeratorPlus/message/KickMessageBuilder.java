@@ -9,6 +9,7 @@ import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 import top.molab.minecraft.moModeratorPlus.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +25,12 @@ public class KickMessageBuilder {
 
     public KickMessageBuilder setBanStat(BanStat banStat) {
         values = new HashMap<>();
-        values.put("Player", banStat.PlayerName());
         values.put("BanID", banStat.BanID());
-        values.put("EffectiveTime", TimeUtils.FormatTimeStampToString(banStat.EffectiveTime()));
-        values.put("ExpireTime", TimeUtils.FormatTimeStampToString(banStat.ExpireTime()));
+        values.put("EffectiveTime", TimeUtils.FormatTimeStampToStringDate(banStat.EffectiveTime()));
+        values.put("ExpireTime", TimeUtils.FormatTimeStampToStringDate(banStat.ExpireTime()));
         values.put("Reason", banStat.Reason());
         values.put("Operator", banStat.Operator());
-        values.put("Duration", String.valueOf(banStat.getDuration()));
+        values.put("Duration", TimeUtils.FormatSecondsCustom(banStat.getDuration()));
         return this;
     }
 
@@ -41,6 +41,11 @@ public class KickMessageBuilder {
 
     public KickMessageBuilder useBanMessageTemplate() {
         messageTemplate = RuntimeDataManager.getInstance().getConfig().getStringList("ban.message");
+        return this;
+    }
+
+    public KickMessageBuilder useBanIPMessageTemplate() {
+        messageTemplate = RuntimeDataManager.getInstance().getConfig().getStringList("banip.message");
         return this;
     }
 
@@ -62,6 +67,9 @@ public class KickMessageBuilder {
             case Ban:
                 useBanMessageTemplate();
                 break;
+            case BanIP:
+                useBanIPMessageTemplate();
+                break;
             case Mute:
                 useMuteMessageTemplate();
                 break;
@@ -72,6 +80,7 @@ public class KickMessageBuilder {
     }
 
     public String buildAsString(Player playerToShow) {
+        values.put("Player", playerToShow.getName());
         StringBuilder builder = new StringBuilder();
         for (String line : messageTemplate) {
             String messageTemplate = line;
@@ -83,5 +92,20 @@ public class KickMessageBuilder {
             builder.append(ColorParser.parse(message)).append("\n");
         }
         return builder.toString();
+    }
+
+    public List<String> buildAsStringArray(Player playerToShow) {
+        values.put("Player", playerToShow.getName());
+        List<String> messageList = new ArrayList<>();
+        for (String line : messageTemplate) {
+            String messageTemplate = line;
+
+            if (RuntimeDataManager.getInstance().isPapiEnabled()) {
+                messageTemplate = PlaceholderAPI.setPlaceholders(playerToShow, messageTemplate);
+            }
+            String message = StringSubstitutor.replace(messageTemplate, values);
+            messageList.add(ColorParser.parse(message));
+        }
+        return messageList;
     }
 }

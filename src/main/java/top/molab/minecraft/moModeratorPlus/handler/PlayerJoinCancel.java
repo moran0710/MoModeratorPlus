@@ -1,6 +1,7 @@
 package top.molab.minecraft.moModeratorPlus.handler;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -17,14 +18,24 @@ public class PlayerJoinCancel implements Listener {
     public void onPlayerJoin(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
         boolean isBanned = RuntimeDataManager.getInstance().getLocalDataManager().hasBannedUUID(uuid.toString());
+        boolean isIPBanned = RuntimeDataManager.getInstance().getLocalDataManager().hasBannedIP(event.getAddress().getHostAddress());
 
-        if (isBanned) {
+        if (isBanned || isIPBanned) {
             BanStat banStat = RuntimeDataManager.getInstance().getLocalDataManager().getBanStatFromUUID(uuid.toString());
+            if (banStat == null) {
+                return;
+            }
             if (banStat.ExpireTime() < TimeUtils.getTimeStamp()) {
                 RuntimeDataManager.getInstance().getLocalDataManager().deleteBanStat(banStat);
                 return;
             }
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, new KickMessageBuilder().setTemplateByType(banStat.BanType()).setBanStat(banStat).buildAsString(Bukkit.getPlayer(uuid)));
+
+            Player player = Bukkit.getPlayer(uuid);
+            // 豁免moModPlus.bypass
+            if (player != null && player.hasPermission("moModPlus.bypass")) {
+                return;
+            }
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, new KickMessageBuilder().setTemplateByType(banStat.BanType()).setBanStat(banStat).buildAsString(player));
         }
     }
 }

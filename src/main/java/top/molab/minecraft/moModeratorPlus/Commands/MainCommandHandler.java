@@ -15,18 +15,19 @@ public class MainCommandHandler implements CommandExecutor {
             HelpUtils.sendHelpMessage(sender);
             return true;
         }
-        switch (args[0]) {
+        switch (args[0].toLowerCase()) {
             case "help":
                 HelpUtils.sendHelpMessage(sender);
                 return true;
             case "kick":
                 new KickHandler().onCommand(sender, command, label, args);
                 return true;
-            default:
+            case "banip":
+            case "ban":
                 new BanHander().onCommand(sender, command, label, args);
                 return true;
         }
-        // return false;
+        return false;
     }
 
 }

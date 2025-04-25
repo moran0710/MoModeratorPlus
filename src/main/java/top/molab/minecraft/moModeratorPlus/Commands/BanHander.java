@@ -17,6 +17,8 @@ import top.molab.minecraft.moModeratorPlus.utils.TimeUtils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class BanHander implements CommandExecutor {
 
@@ -54,12 +56,18 @@ public class BanHander implements CommandExecutor {
                 sender.sendMessage("§c玩家不存在");
                 return true;
             }
+
+            // 豁免moModPlus.bypass权限组
+            if (player.hasPermission("moModPlus.bypass")) {
+                sender.sendMessage("§c玩家拥有moModPlus.bypass权限，无法被封禁");
+                return true;
+            }
+
             String operatorTemp;
             String operatorUUIDTemp;
 
             //获取处理人的信息
-            if (sender instanceof Player) {
-                Player senderPlayer = (Player) sender;
+            if (sender instanceof Player senderPlayer) {
                 operatorTemp = senderPlayer.getName();
                 operatorUUIDTemp = senderPlayer.getUniqueId().toString();
             } else {
@@ -82,7 +90,7 @@ public class BanHander implements CommandExecutor {
                             reason,
                             TimeUtils.getTimeStamp(),
                             expireTime,
-                            player.getAddress().getHostName(),
+                            Objects.requireNonNull(player.getAddress()).getHostName(),
                             player.getName(),
                             player.getUniqueId().toString(),
                             operator,
@@ -99,14 +107,39 @@ public class BanHander implements CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
+                            // 踢出单个玩家
                             if (player.isOnline()) {
-                                player.kickPlayer(new KickMessageBuilder().setTemplateByType(BanTypes.getTypeByString(banType)).setBanStat(banStat).buildAsString(player));
+                                player.kickPlayer(new KickMessageBuilder().setTemplateByType(Objects.requireNonNull(BanTypes.getTypeByString(banType))).setBanStat(banStat).buildAsString(player));
+                            }
+
+                            // 如果是BanIP，踢出此IP下所有玩家
+                            if (banType.equals("banip")) {
+                                for (Player p : Bukkit.getOnlinePlayers()) {
+                                    // 豁免moModPlus.bypass权限组
+                                    if (p.hasPermission("moModPlus.bypass")) {
+                                        sender.sendMessage("§c玩家" + p.getName() + "拥有moModPlus.bypass权限，无法被连锁BanIp");
+                                        continue;
+                                    }
+                                    if (Objects.requireNonNull(p.getAddress()).getHostName().equals(banStat.IP())) {
+                                        p.kickPlayer(new KickMessageBuilder().setTemplateByType(Objects.requireNonNull(BanTypes.getTypeByString(banType))).setBanStat(banStat).buildAsString(player));
+                                    }
+                                }
+                            }
+                            // 发送全服广播
+                            if (RuntimeDataManager.getInstance().getConfig().getBoolean(banType + ".announce.enable")) {
+                                List<String> messgae = new KickMessageBuilder().setMessageTemplate(RuntimeDataManager.getInstance().getConfig().getStringList(banType + ".announce.message")).setBanStat(banStat).buildAsStringArray(player);
+                                for (Player p : Bukkit.getOnlinePlayers()) {
+                                    for (String message : messgae) {
+                                        p.sendMessage(message);
+                                    }
+                                }
                             }
                         }
                     }.runTask(MoModeratorPlus.instance);
                     // player.kickPlayer(new KickMessageBuilder().setTemplateByType(BanTypes.getTypeByString(banType)).setBanStat(banStat).buildAsString(player));
                 }
             }.runTaskAsynchronously(MoModeratorPlus.instance);
+
             return true;
 
 
