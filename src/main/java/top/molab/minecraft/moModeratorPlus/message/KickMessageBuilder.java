@@ -3,6 +3,7 @@ package top.molab.minecraft.moModeratorPlus.message;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.text.StringSubstitutor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
@@ -79,7 +80,7 @@ public class KickMessageBuilder {
         return this;
     }
 
-    public String buildAsString(Player playerToShow) {
+    public String buildAsString(OfflinePlayer playerToShow) {
         values.put("Player", playerToShow.getName());
         StringBuilder builder = new StringBuilder();
         for (String line : messageTemplate) {

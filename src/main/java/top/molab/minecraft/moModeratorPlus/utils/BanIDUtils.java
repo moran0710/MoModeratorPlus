@@ -1,5 +1,6 @@
 package top.molab.minecraft.moModeratorPlus.utils;
 
+import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 
 import java.util.Random;
@@ -18,9 +19,29 @@ public class BanIDUtils {
         }
     }
 
+    public static String getNewBanIpID() {
+        while (true) {
+            String BanID = RuntimeDataManager.getInstance().getConfig().getString("banip.ban-id-prefix") + generate6DigitCode();
+            if (!RuntimeDataManager.getInstance().getLocalDataManager().hasBanID(BanID)) {
+                return BanID;
+            }
+        }
+    }
+
+    public static String getNewBanIDByType(BanTypes banTypes) {
+        if (banTypes == null) {
+            return getNewBanID();
+        }
+        return switch (banTypes) {
+            case Kick -> getNewKickID();
+            case BanIP -> getNewBanIpID();
+            case Mute -> getNewMuteID();
+            default -> getNewBanID();
+        };
+    }
+
     public static String getNewKickID() {
-        String BanID = RuntimeDataManager.getInstance().getConfig().getString("kick.ban-id-prefix") + generate6DigitCode();
-        return BanID;
+        return RuntimeDataManager.getInstance().getConfig().getString("kick.ban-id-prefix") + generate6DigitCode();
     }
 
     public static String getNewMuteID() {

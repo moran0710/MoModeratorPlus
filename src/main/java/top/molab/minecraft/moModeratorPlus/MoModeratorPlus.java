@@ -4,6 +4,7 @@ import cc.carm.lib.easyplugin.utils.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.molab.minecraft.moModeratorPlus.Commands.MainCommandHandler;
+import top.molab.minecraft.moModeratorPlus.handler.MuteMessageCancel;
 import top.molab.minecraft.moModeratorPlus.handler.PlayerJoinCancel;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 
@@ -50,6 +51,7 @@ public final class MoModeratorPlus extends JavaPlugin {
             Objects.requireNonNull(Bukkit.getPluginCommand("MoModeratorPlus")).setExecutor(new MainCommandHandler());
         }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinCancel(), this);
+        Bukkit.getPluginManager().registerEvents(new MuteMessageCancel(), this);
     }
 
     @Override

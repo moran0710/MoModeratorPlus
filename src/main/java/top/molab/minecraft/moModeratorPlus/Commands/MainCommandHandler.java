@@ -24,7 +24,11 @@ public class MainCommandHandler implements CommandExecutor {
                 return true;
             case "banip":
             case "ban":
+            case "mute":
                 new BanHander().onCommand(sender, command, label, args);
+                return true;
+            case "unban":
+                new UnBanHandler().onCommand(sender, command, label, args);
                 return true;
         }
         return false;

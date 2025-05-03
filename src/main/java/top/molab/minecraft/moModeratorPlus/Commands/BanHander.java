@@ -85,7 +85,7 @@ public class BanHander implements CommandExecutor {
                 @Override
                 public void run() {
                     final BanStat banStat = new BanStat(
-                            BanIDUtils.getNewBanID(),
+                            BanIDUtils.getNewBanIDByType(BanTypes.getTypeByString(banType)),
                             BanTypes.getTypeByString(banType),
                             reason,
                             TimeUtils.getTimeStamp(),
@@ -107,6 +107,23 @@ public class BanHander implements CommandExecutor {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
+                            // 发送全服广播
+                            if (RuntimeDataManager.getInstance().getConfig().getBoolean(banType + ".announce.enable")) {
+                                List<String> messgae = new KickMessageBuilder().setMessageTemplate(RuntimeDataManager.getInstance().getConfig().getStringList(banType + ".announce.message")).setBanStat(banStat).buildAsStringArray(player);
+                                for (Player p : Bukkit.getOnlinePlayers()) {
+                                    for (String message : messgae) {
+                                        p.sendMessage(message);
+                                    }
+                                }
+                            }
+                            //如果是mute，向被Mute用户通知后，立刻结束
+                            if (banType.equals("mute")) {
+                                List<String> messgae = new KickMessageBuilder().setTemplateByType(banStat.BanType()).setBanStat(banStat).buildAsStringArray(player);
+                                for (String message : messgae) {
+                                    player.sendMessage(message);
+                                }
+                                return;
+                            }
                             // 踢出单个玩家
                             if (player.isOnline()) {
                                 player.kickPlayer(new KickMessageBuilder().setTemplateByType(Objects.requireNonNull(BanTypes.getTypeByString(banType))).setBanStat(banStat).buildAsString(player));
@@ -122,15 +139,6 @@ public class BanHander implements CommandExecutor {
                                     }
                                     if (Objects.requireNonNull(p.getAddress()).getHostName().equals(banStat.IP())) {
                                         p.kickPlayer(new KickMessageBuilder().setTemplateByType(Objects.requireNonNull(BanTypes.getTypeByString(banType))).setBanStat(banStat).buildAsString(player));
-                                    }
-                                }
-                            }
-                            // 发送全服广播
-                            if (RuntimeDataManager.getInstance().getConfig().getBoolean(banType + ".announce.enable")) {
-                                List<String> messgae = new KickMessageBuilder().setMessageTemplate(RuntimeDataManager.getInstance().getConfig().getStringList(banType + ".announce.message")).setBanStat(banStat).buildAsStringArray(player);
-                                for (Player p : Bukkit.getOnlinePlayers()) {
-                                    for (String message : messgae) {
-                                        p.sendMessage(message);
                                     }
                                 }
                             }

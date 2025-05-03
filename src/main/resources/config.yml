@@ -141,7 +141,7 @@ banip:
   force-reason: false
 
   # Ban的 BanID的前缀是什么？
-  ban-id-prefix: "#B-"
+  ban-id-prefix: "#BI-"
   # 设置被ban连接时的信息
   # 允许的格式化信息：
   # ${Player} 玩家名

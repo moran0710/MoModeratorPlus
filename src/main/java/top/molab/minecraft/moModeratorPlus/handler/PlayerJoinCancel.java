@@ -1,11 +1,12 @@
 package top.molab.minecraft.moModeratorPlus.handler;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
+import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
 import top.molab.minecraft.moModeratorPlus.message.KickMessageBuilder;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 import top.molab.minecraft.moModeratorPlus.utils.TimeUtils;
@@ -25,16 +26,17 @@ public class PlayerJoinCancel implements Listener {
             if (banStat == null) {
                 return;
             }
+
+            if (banStat.BanType() == BanTypes.Mute) {
+                return;
+            }
+
             if (banStat.ExpireTime() < TimeUtils.getTimeStamp()) {
                 RuntimeDataManager.getInstance().getLocalDataManager().deleteBanStat(banStat);
                 return;
             }
 
-            Player player = Bukkit.getPlayer(uuid);
-            // 豁免moModPlus.bypass
-            if (player != null && player.hasPermission("moModPlus.bypass")) {
-                return;
-            }
+            OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, new KickMessageBuilder().setTemplateByType(banStat.BanType()).setBanStat(banStat).buildAsString(player));
         }
     }
