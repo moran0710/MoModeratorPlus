@@ -5,14 +5,16 @@ import org.apache.commons.text.StringSubstitutor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 import top.molab.minecraft.moModeratorPlus.utils.PlayerUtils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
+import java.util.List;
 
-public class UnBanHandler implements CommandExecutor {
+public class UnBanHandler implements CommandExecutor, TabCompleter {
     @Override
     @ParametersAreNonnullByDefault
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -49,5 +51,14 @@ public class UnBanHandler implements CommandExecutor {
                         ), map)
         );
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        switch (args.length) {
+            case 2:
+                return List.of("<BanID>", "<UUID>", "<玩家名>");
+        }
+        return null;
     }
 }

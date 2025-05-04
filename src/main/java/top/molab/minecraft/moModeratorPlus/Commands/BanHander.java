@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import top.molab.minecraft.moModeratorPlus.MoModeratorPlus;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class BanHander implements CommandExecutor {
+public class BanHander implements CommandExecutor, TabExecutor {
 
     @Override
     @ParametersAreNonnullByDefault
@@ -155,5 +156,18 @@ public class BanHander implements CommandExecutor {
             sender.sendMessage("§c时间串格式不正确");
             return true;
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        switch (args.length) {
+            case 2:
+                return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+            case 3:
+                return List.of("<时间>");
+            case 4:
+                return List.of("<理由>");
+        }
+        return null;
     }
 }

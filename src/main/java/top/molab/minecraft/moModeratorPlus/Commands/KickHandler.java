@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
@@ -13,8 +14,9 @@ import top.molab.minecraft.moModeratorPlus.utils.BanIDUtils;
 import top.molab.minecraft.moModeratorPlus.utils.TimeUtils;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class KickHandler implements CommandExecutor {
+public class KickHandler implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -60,5 +62,16 @@ public class KickHandler implements CommandExecutor {
         );
         player.kickPlayer(new KickMessageBuilder().useKickMessageTemplate().setBanStat(banStat).buildAsString(player));
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        switch (args.length) {
+            case 2:
+                return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+            case 3:
+                return List.of("<理由>");
+        }
+        return null;
     }
 }
