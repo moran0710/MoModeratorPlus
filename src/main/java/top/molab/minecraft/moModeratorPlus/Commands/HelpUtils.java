@@ -15,10 +15,8 @@ public class HelpUtils {
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ kick <用户名> <原因>：&l&7 踢出某人"));
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ ban <用户名> <时长> <原因>：&l&7封禁某人"));
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ banip <IP> <时长> <原因>：&l&7封禁IP"));
-        sender.sendMessage();
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ unban <用户名/BanID/UUID>&l&7： 解封某人"));
         sender.sendMessage();
-        sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ banlist：&l&7 封禁列表"));
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ search [用户名/banID/UUID] <参数>：&l&7查询对应的封禁"));
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)/mm+ reload：&l&7重载配置文件"));
         sender.sendMessage(ColorParser.parse("&l&(#66ccff)Powered By OpenMoPlugins Project"));

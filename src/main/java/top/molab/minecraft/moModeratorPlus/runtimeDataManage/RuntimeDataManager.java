@@ -27,6 +27,7 @@ public class RuntimeDataManager {
 
     public void init() {
         // 读取配置文件
+        MoModeratorPlus.instance.reloadConfig();
         this.config = MoModeratorPlus.instance.getConfig();
 
         // 准备数据管理器

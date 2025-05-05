@@ -104,12 +104,12 @@ ban:
   # ${Operator} 操作人ID
   # ${Duration} 处罚总时长
   message:
-    - "你已经被Example服务器封禁！！"
-    - "BANID：${BanID} 玩家名：${Player}"
-    - "封禁时间：${EffectiveTime} 解封时间：${ExpireTime}"
-    - "封禁理由：${Reason}"
-    - "操作人：${Operator}"
-    - "请访问https://example.com自助申诉！"
+    - "&c你已经被Example服务器封禁！！"
+    - "&cBANID：&6${BanID} &c玩家名：&6${Player}"
+    - "&c封禁时间：&6${EffectiveTime} &c解封时间：&6${ExpireTime}"
+    - "&c封禁理由：&6${Reason}"
+    - "&c操作人：&6${Operator}"
+    - "&(#66ccff)请访问https://example.com自助申诉！"
 
   # 全服公告，向全服通报封禁信息
   announce:
@@ -117,11 +117,11 @@ ban:
     enable: true
     # 全服广播消息
     message:
-      - "========================================="
-      - "玩家${Player}被Example服务器封禁！"
-      - "封禁理由：${Reason}"
-      - "封禁时间：${EffectiveTime} 封禁时长：${Duration} 解封时间：${ExpireTime}"
-      - "操作人：${Operator}"
+      - "&(#66ccff)========================================="
+      - "&(#66ccff)玩家&c${Player}&(#66ccff)被Example服务器封禁！"
+      - "&(#66ccff)封禁理由：&c${Reason}"
+      - "&(#66ccff)封禁时间：&c${EffectiveTime} &(#66ccff)封禁时长：&c${Duration} &(#66ccff)解封时间：&c${ExpireTime}"
+      - "&(#66ccff)操作人：&c${Operator}"
       - "========================================="
 
 banip:

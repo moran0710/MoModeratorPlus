@@ -168,6 +168,6 @@ public class BanHander implements CommandExecutor, TabExecutor {
             case 4:
                 return List.of("<理由>");
         }
-        return null;
+        return List.of("<理由>");
     }
 }

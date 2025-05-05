@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
 import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 import top.molab.minecraft.moModeratorPlus.utils.PlayerUtils;
@@ -54,10 +55,11 @@ public class UnBanHandler implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        switch (args.length) {
-            case 2:
-                return List.of("<BanID>", "<UUID>", "<玩家名>");
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
+        if (args.length == 2) {
+            List<String> bans = RuntimeDataManager.getInstance().getLocalDataManager().getAllBanID();
+            bans.addAll(RuntimeDataManager.getInstance().getLocalDataManager().getAllPlayerName());
+            return bans;
         }
         return null;
     }

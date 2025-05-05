@@ -208,5 +208,35 @@ public class FileDataManager implements ILocalDataManager {
             MoModeratorPlus.instance.getLogger().log(Level.SEVERE, "Failed to save ban list", e);
         }
     }
+
+    @Override
+    public List<String> getAllUUID() {
+        List<String> uuids = new ArrayList<>();
+        List<Map<?, ?>> banList = data.getMapList(ROOT);
+        for (Map<?, ?> ban : banList) {
+            uuids.add((String) ban.get(UUID_PATH));
+        }
+        return uuids;
+    }
+
+    @Override
+    public List<String> getAllPlayerName() {
+        List<String> playerNames = new ArrayList<>();
+        List<Map<?, ?>> banList = data.getMapList(ROOT);
+        for (Map<?, ?> ban : banList) {
+            playerNames.add((String) ban.get(PLAYER_NAME_PATH));
+        }
+        return playerNames;
+    }
+
+    @Override
+    public List<String> getAllBanID() {
+        List<String> banIDs = new ArrayList<>();
+        List<Map<?, ?>> banList = data.getMapList(ROOT);
+        for (Map<?, ?> ban : banList) {
+            banIDs.add((String) ban.get(BANID_PATH));
+        }
+        return banIDs;
+    }
 }
 

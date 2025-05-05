@@ -1,5 +1,6 @@
 package top.molab.minecraft.moModeratorPlus.dataStorage;
 
+import java.util.List;
 
 /**
  * 本地封禁数据管理接口，提供封禁状态查询和封禁信息获取功能
@@ -84,5 +85,22 @@ public interface ILocalDataManager {
      * 删除封禁信息
      */
     public void deleteBanStat(BanStat banStat);
+
+    /**
+     * 获取所有封禁UUID
+     */
+    public List<String> getAllUUID();
+
+    /**
+     * 获取所有封禁玩家名
+     */
+    public List<String> getAllPlayerName();
+
+    /**
+     * 获取所有封禁BanID
+     */
+    public List<String> getAllBanID();
+
+
 }
 
