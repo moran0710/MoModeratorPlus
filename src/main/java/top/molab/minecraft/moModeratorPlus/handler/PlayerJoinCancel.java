@@ -24,7 +24,11 @@ public class PlayerJoinCancel implements Listener {
         if (isBanned || isIPBanned) {
             BanStat banStat = RuntimeDataManager.getInstance().getLocalDataManager().getBanStatFromUUID(uuid.toString());
             if (banStat == null) {
-                return;
+                String Ip = event.getAddress().getHostAddress();
+                banStat = RuntimeDataManager.getInstance().getLocalDataManager().getBanStatFromIP(Ip);
+                if (banStat == null) {
+                    return;
+                }
             }
 
             if (banStat.BanType() == BanTypes.Mute) {

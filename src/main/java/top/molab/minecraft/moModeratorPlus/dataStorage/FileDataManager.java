@@ -204,6 +204,7 @@ public class FileDataManager implements ILocalDataManager {
     private void saveData() {
         try {
             data.save(FILE);
+            MoModeratorPlus.instance.getLogger().info("Saved ban list successfully");
         } catch (IOException e) {
             MoModeratorPlus.instance.getLogger().log(Level.SEVERE, "Failed to save ban list", e);
         }

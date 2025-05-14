@@ -71,7 +71,6 @@ kick:
       - "========================================="
       - "玩家${Player}被Example服务器踢出！"
       - "踢出理由：${Reason}"
-      - "踢出时间：${KickTime}"
       - "操作人：${Operator}"
       - "========================================="
       -
@@ -219,6 +218,12 @@ mute:
       - "开始时间：${EffectiveTime} 解封时间：${ExpireTime}"
       - "操作人：${Operator}"
       - "========================================="
+
+  unban:
+    # 是否启用MoModPlus UnBan命令？
+    enable: true
+    # 是否复写原版的UnBan命令？
+    override: false
 
 # 配置文件版本，请勿修改
 version: 1.0

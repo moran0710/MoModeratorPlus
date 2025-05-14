@@ -6,11 +6,40 @@ load: STARTUP
 softdepend: [ "PlaceholderAPI" ]
 commands:
   MoModeratorPlus:
-    description: MoModeratorPlus相关命令
+    description: MoModeratorPlus Commands
     usage: /MoModeratorPlus
     permission: moModPlus.admin
     aliases:
       - MoModPlus
       - mmp
       - mm+
+  ban:
+    description: MoModeratorPlus Ban
+    usage: /MoModeratorPlus
+    permission: moModPlus.admin
+    aliases: [ ]
+
+  banip:
+    description: MoModeratorPlus BanIP
+    usage: /banip
+    permission: moModPlus.admin
+    aliases:
+      - ban-ip
+  mute:
+    description: MoModeratorPlus Mute
+    usage: /mute
+    permission: moModPlus.admin
+    aliases: [ ]
+
+  kick:
+    description: MoModeratorPlus Kick
+    usage: /kick
+    permission: moModPlus.admin
+    aliases: [ ]
+
+  unban:
+    description: MoModeratorPlus Unban
+    usage: /unban
+    permission: moModPlus.admin
+    aliases: [ ]
 
