@@ -23,7 +23,10 @@ MoModeratorPlus是一个简单好用的玩家封禁插件，支持以下功能�
 3. 重启服务器，配置config.yml
 4. 开始使用！
 
-> [!WARNING]安装前注意
+> [!WARNING]
+>
+> 安装前注意
+>
 > MoModeratorPlus会覆盖Bukkit默认的封禁功能（`ban/mute/kick/ban-ip`这些原版Bukkit命令）
 >
 > 这意味着Bukkit自带的封禁功能将**全部失效**，请**仔细考虑**！
