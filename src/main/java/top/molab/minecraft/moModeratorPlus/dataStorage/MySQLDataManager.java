@@ -126,7 +126,7 @@ public class MySQLDataManager implements ILocalDataManager {
                 if (resultSet.next()) {
                     return new BanStat(
                             resultSet.getString(BAN_ID),
-                            BanTypes.getTypeByString(resultSet.getString(BAN_TYPE)),
+                            BanTypes.getTypeByString(resultSet.getString(BAN_TYPE).toLowerCase()),
                             resultSet.getString(REASON),
                             resultSet.getLong(EFFECTIVE_TIME),
                             resultSet.getLong(EXPIRE_TIME),
