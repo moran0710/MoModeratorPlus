@@ -85,7 +85,7 @@ public class KickMessageBuilder {
         StringBuilder builder = new StringBuilder();
         for (String line : messageTemplate) {
             String messageTemplate = line;
-
+            RuntimeDataManager runtimeDataManager = RuntimeDataManager.getInstance();
             if (RuntimeDataManager.getInstance().isPapiEnabled()) {
                 messageTemplate = PlaceholderAPI.setPlaceholders(playerToShow, messageTemplate);
             }
@@ -100,7 +100,6 @@ public class KickMessageBuilder {
         List<String> messageList = new ArrayList<>();
         for (String line : messageTemplate) {
             String messageTemplate = line;
-
             if (RuntimeDataManager.getInstance().isPapiEnabled()) {
                 messageTemplate = PlaceholderAPI.setPlaceholders(playerToShow, messageTemplate);
             }

@@ -1,6 +1,7 @@
 package top.molab.minecraft.moModeratorPlus.commands;
 
 
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,6 +28,11 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
             argsTemp[0] = label;
             args = ArrayUtils.addAll(argsTemp, args);
         }
+        if (args[0].equalsIgnoreCase("reload")) {
+            RuntimeDataManager.getInstance().init();
+            sender.sendMessage(ColorParser.parse("&(#66ccff)已重载配置文件"));
+            return true;
+        }
         if (args[0].equalsIgnoreCase("unban") && args.length >= 2) {
             PunishExecuteUtils.DeletePunish(args[1], (Player) sender);
             return true;
@@ -44,22 +50,30 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
                     (Player) sender);
             return true;
         }
-        PunishExecuteUtils.ExecutePunish(
+        try {
+            PunishExecuteUtils.ExecutePunish(
                 banType,
                 args[1],
-                Arrays.copyOfRange(args, 3, args.length + 1),
+                    Arrays.copyOfRange(args, 3, args.length),
                 TimeUtils.getTimeStamp(),
                 TimeUtils.getTimeStamp() + TimeUtils.ParseStringToTimeStamp(args[2]),
                 (Player) sender
         );
         return true;
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(ColorParser.parse("&c时间格式错误"));
+            return true;
+        } catch (Exception e) {
+            sender.sendMessage(ColorParser.parse("&c出现未知错误，请查看日志进行排查"));
+            throw new RuntimeException(e);
+        }
     }
 
     @ParametersAreNonnullByDefault
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         switch (args.length) {
             case 1:
-                return List.of("help", "kick", "ban", "banip", "mute", "unban");
+                return List.of("help", "kick", "ban", "banip", "mute", "unban", "reload");
             case 2:
                 switch (args[0]) {
                     case "help":

@@ -20,6 +20,7 @@ public class FileDataManager implements ILocalDataManager {
     private FileConfiguration data;
 
     public final String ROOT = "BanList";
+    public final String VERSION_PATH = "Version";
 
     public final String BANID_PATH = "BanID";
     public final String REASON_PATH = "Reason";
@@ -43,10 +44,15 @@ public class FileDataManager implements ILocalDataManager {
                 FILE.getParentFile().mkdirs();
                 FileConfiguration newFile = new YamlConfiguration();
                 newFile.set(ROOT, new ArrayList<Map<String, Object>>());
+                newFile.set(VERSION_PATH, VERSION);
                 newFile.save(FILE);
-
             }
             this.data = YamlConfiguration.loadConfiguration(FILE);
+            if (!this.data.getString(VERSION_PATH).equals(VERSION)) {
+                MoModeratorPlus.instance.getLogger().warning("Database Version is not " + VERSION + ", Please Check Your Database");
+                // TODO: 如果有版本更新，要在这里加转换工具，但是目前没有版本更新，所以不写
+                throw new RuntimeException("Database Version is not " + VERSION + ", Please Check Your Database");
+            }
             MoModeratorPlus.instance.getLogger().info("Enable FileDataManger Successfully");
 
         } catch (Exception e) {

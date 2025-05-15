@@ -3,6 +3,7 @@ package top.molab.minecraft.moModeratorPlus;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import top.molab.minecraft.moModeratorPlus.bstat.Metrics;
 import top.molab.minecraft.moModeratorPlus.commands.MainCommandHandler;
 import top.molab.minecraft.moModeratorPlus.commands.OverrideCommandTapCompleter;
 import top.molab.minecraft.moModeratorPlus.handler.MuteMessageCancel;
@@ -51,31 +52,26 @@ public final class MoModeratorPlus extends JavaPlugin {
         if (Bukkit.getPluginCommand("MoModeratorPlus") != null) {
             Objects.requireNonNull(Bukkit.getPluginCommand("MoModeratorPlus")).setExecutor(new MainCommandHandler());
             Objects.requireNonNull(Bukkit.getPluginCommand("MoModeratorPlus")).setTabCompleter(new MainCommandHandler());
-        }
-        // 复写原版Ban命令等
-        if (RuntimeDataManager.getInstance().getConfig().getBoolean("ban.override")) {
-            Objects.requireNonNull(Bukkit.getPluginCommand("ban")).setExecutor(new MainCommandHandler());
-            Objects.requireNonNull(Bukkit.getPluginCommand("ban")).setTabCompleter(new OverrideCommandTapCompleter());
-        }
-        if (RuntimeDataManager.getInstance().getConfig().getBoolean("kick.override")) {
-            Objects.requireNonNull(Bukkit.getPluginCommand("kick")).setExecutor(new MainCommandHandler());
-            Objects.requireNonNull(Bukkit.getPluginCommand("kick")).setTabCompleter(new OverrideCommandTapCompleter());
-        }
-        if (RuntimeDataManager.getInstance().getConfig().getBoolean("mute.override")) {
-            Objects.requireNonNull(Bukkit.getPluginCommand("mute")).setExecutor(new MainCommandHandler());
-            Objects.requireNonNull(Bukkit.getPluginCommand("mute")).setTabCompleter(new OverrideCommandTapCompleter());
-        }
-        if (RuntimeDataManager.getInstance().getConfig().getBoolean("banip.override")) {
+
+            //接管原版Ban命令
             Objects.requireNonNull(Bukkit.getPluginCommand("banip")).setExecutor(new MainCommandHandler());
             Objects.requireNonNull(Bukkit.getPluginCommand("banip")).setTabCompleter(new OverrideCommandTapCompleter());
-        }
-        if (RuntimeDataManager.getInstance().getConfig().getBoolean("unban.override")) {
+            Objects.requireNonNull(Bukkit.getPluginCommand("ban")).setExecutor(new MainCommandHandler());
+            Objects.requireNonNull(Bukkit.getPluginCommand("ban")).setTabCompleter(new OverrideCommandTapCompleter());
+            Objects.requireNonNull(Bukkit.getPluginCommand("kick")).setExecutor(new MainCommandHandler());
+            Objects.requireNonNull(Bukkit.getPluginCommand("kick")).setTabCompleter(new OverrideCommandTapCompleter());
+            Objects.requireNonNull(Bukkit.getPluginCommand("mute")).setExecutor(new MainCommandHandler());
+            Objects.requireNonNull(Bukkit.getPluginCommand("mute")).setTabCompleter(new OverrideCommandTapCompleter());
             Objects.requireNonNull(Bukkit.getPluginCommand("unban")).setExecutor(new MainCommandHandler());
             Objects.requireNonNull(Bukkit.getPluginCommand("unban")).setTabCompleter(new OverrideCommandTapCompleter());
-        }
 
+
+        }
         Bukkit.getPluginManager().registerEvents(new PlayerJoinCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MuteMessageCancel(), this);
+
+        //启动bstat
+        Metrics metrics = new Metrics(this, 25863);
     }
 
     @Override

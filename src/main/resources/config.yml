@@ -26,8 +26,26 @@ global:
   # 默认使用yaml
   # 如果全部不启用，则启用yaml
   database:
+    # YAML文件存储
     yaml:
+      # 是否启用YAML文件存储
       enable: true
+
+    # MYSQL数据库存储
+    mysql:
+      # 是否启用MYSQL数据库存储
+      enable: false
+      # 数据库链接设置
+      # 数据库地址
+      host: "127.0.0.1"
+      # 数据库端口
+      port: 3306
+      # 数据库名称
+      database: "example"
+      # 用户名
+      username: "example"
+      # 密码
+      password: "passwd"
 
 # Kick配置
 kick:
@@ -36,17 +54,13 @@ kick:
   # 默认为true
   enable: true
 
-  # 是否复写原版的Kick命令？
-  # 启用后，MoModPlus会接管原版的/kick命令
-  # 默认为false
-  override: false
-
   # 是否强制输入Kick理由？
   # 启用后，玩家必须输入理由才能kick
   # 默认为false
   force-reason: false
 
   # Kick的 BanID的前缀是什么？
+  # 前缀最多支持8个字符
   ban-id-prefix: "#K-"
 
   # 设置被kick时的信息
@@ -81,17 +95,13 @@ ban:
   # 默认为true
   enable: true
 
-  # 是否复写原版的Ban命令？
-  # 启用后，MoModPlus会接管原版的/Ban命令
-  # 默认为false
-  override: false
-
   # 是否强制输入Ban理由？
   # 启用后，玩家必须输入理由才能Ban
   # 默认为false
   force-reason: false
 
   # Ban的 BanID的前缀是什么？
+  # 前缀最多支持8个字符
   ban-id-prefix: "#B-"
   # 设置被ban连接时的信息
   # 允许的格式化信息：
@@ -129,17 +139,13 @@ banip:
   # 默认为true
   enable: true
 
-  # 是否复写原版的BanIp命令？
-  # 启用后，MoModPlus会接管原版的/banip和/ban-ip命令
-  # 默认为false
-  override: false
-
   # 是否强制输入Ban理由？
   # 启用后，玩家必须输入理由才能Ban
   # 默认为false
   force-reason: false
 
   # Ban的 BanID的前缀是什么？
+  # 前缀最多支持8个字符
   ban-id-prefix: "#BI-"
   # 设置被ban连接时的信息
   # 允许的格式化信息：
@@ -178,17 +184,13 @@ mute:
   # 默认为true
   enable: true
 
-  # 是否复写原版的Mute命令？
-  # 启用后，MoModPlus会接管原版的/mute命令
-  # 默认为false
-  override: false
-
   # 是否强制输入禁言理由？
   # 启用后，玩家必须输入理由才能禁言
   # 默认为false
   force-reason: false
 
   # Ban的 BanID的前缀是什么？
+  # 前缀最多支持8个字符
   ban-id-prefix: "#B-"
   # 设置被禁言时，服务器发送给被禁言玩家的信息
   # 格式化信息：
@@ -219,11 +221,9 @@ mute:
       - "操作人：${Operator}"
       - "========================================="
 
-  unban:
-    # 是否启用MoModPlus UnBan命令？
-    enable: true
-    # 是否复写原版的UnBan命令？
-    override: false
+unban:
+  # 是否启用MoModPlus UnBan命令？
+  enable: true
 
 # 配置文件版本，请勿修改
 version: 1.0

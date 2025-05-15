@@ -7,6 +7,9 @@ import java.util.List;
  */
 public interface ILocalDataManager {
 
+    final String VERSION = "1.0";
+
+
     /**
      * 通过玩家名称检查是否存在于封禁名单
      *
