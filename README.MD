@@ -18,7 +18,16 @@ MoModeratorPlus是一个简单好用的玩家封禁插件，支持以下功能�
 
 完整文档请查看[OpenMoPlugin文档](http://openmo.molab.top/bukkit/momoderatorplus/)
 
-1. 在[Release](https://github.com/moran0710/MoModeratorPlus/releases)或者构建站（搭建中）下载最新版本的MoModeratorPlus。
+1. 在[Release](https://github.com/moran0710/MoModeratorPlus/releases)或者[构建站](https://build.molab.top/)
+   下载最新版本的MoModeratorPlus。
+
+> [!NOTE]
+>
+> **Release**中为稳定版本，开发中的最新构建请访问构建站
+>
+> 不保证构建站中的版本稳定，构建站中的版本可能出现莫名其妙的Bug
+>
+
 2. 丢尽`/plugins`文件夹
 3. 重启服务器，配置config.yml
 4. 开始使用！
