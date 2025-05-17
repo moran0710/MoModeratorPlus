@@ -150,7 +150,7 @@ public class FileDataManager implements ILocalDataManager {
     }
 
     @Override
-    public void addNewBanStat(BanStat banStat) {
+    public synchronized void addNewBanStat(BanStat banStat) {
         Map<String, Object> ban = new HashMap<>();
         ban.put(BANID_PATH, banStat.BanID());
         ban.put(REASON_PATH, banStat.Reason());
@@ -171,12 +171,12 @@ public class FileDataManager implements ILocalDataManager {
     }
 
     @Override
-    public void updateBanStat(BanStat banStat) {
+    public synchronized void updateBanStat(BanStat banStat) {
         this.addNewBanStat(banStat);
     }
 
     @Override
-    public void deleteBanStat(BanStat banStat) {
+    public synchronized void deleteBanStat(BanStat banStat) {
         Map<?, ?> correctBan = null;
         List<Map<?, ?>> banList = data.getMapList(ROOT);
         for (Map<?, ?> ban : banList) {
@@ -207,7 +207,7 @@ public class FileDataManager implements ILocalDataManager {
         );
     }
 
-    private void saveData() {
+    private synchronized void saveData() {
         try {
             data.save(FILE);
             MoModeratorPlus.instance.getLogger().info("Saved ban list successfully");

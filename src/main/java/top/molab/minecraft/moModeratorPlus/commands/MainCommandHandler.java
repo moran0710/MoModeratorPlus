@@ -45,7 +45,7 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
         if (Objects.requireNonNull(banType) == BanTypes.Kick) {
             PunishExecuteUtils.ExecutePunish(banType,
                     args[1],
-                    Arrays.copyOfRange(args, 2, args.length),
+                    args.length > 2 ? Arrays.copyOfRange(args, 2, args.length) : new String[]{RuntimeDataManager.getInstance().getConfig().getString("global.default-kick-message")},
                     0, 0,
                     (Player) sender);
             return true;
@@ -54,7 +54,7 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
             PunishExecuteUtils.ExecutePunish(
                 banType,
                 args[1],
-                    Arrays.copyOfRange(args, 3, args.length),
+                    args.length > 3 ? Arrays.copyOfRange(args, 3, args.length) : new String[]{RuntimeDataManager.getInstance().getConfig().getString("global.default-kick-message")},
                 TimeUtils.getTimeStamp(),
                 TimeUtils.getTimeStamp() + TimeUtils.ParseStringToTimeStamp(args[2]),
                 (Player) sender
@@ -62,6 +62,9 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
         return true;
         } catch (IllegalArgumentException e) {
             sender.sendMessage(ColorParser.parse("&c时间格式错误"));
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            sender.sendMessage(ColorParser.parse("&c你需要输入封禁时间"));
             return true;
         } catch (Exception e) {
             sender.sendMessage(ColorParser.parse("&c出现未知错误，请查看日志进行排查"));
@@ -94,7 +97,6 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
                 if (args[1].equals("kick")) {
                     return List.of("<Reason>");
                 }
-                return List.of("<Time>");
             case 4:
                 return List.of("<Reason>");
         }

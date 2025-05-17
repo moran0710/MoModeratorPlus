@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import top.molab.minecraft.moModeratorPlus.MoModeratorPlus;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanStat;
 import top.molab.minecraft.moModeratorPlus.dataStorage.BanTypes;
 import top.molab.minecraft.moModeratorPlus.message.KickMessageBuilder;
@@ -17,7 +18,7 @@ public class PunishExecuteUtils {
         OfflinePlayer player = Bukkit.getPlayerExact(playerName);
         if (player != null) {
 
-            if ((Arrays.asList(reason).contains(null) || reason.length == 0) && RuntimeDataManager.getInstance().getConfig().getBoolean(type.getType().toLowerCase() + ".force-reason")) {
+            if ((Arrays.asList(reason).contains(RuntimeDataManager.getInstance().getConfig().getString("global.default-kick-message")) || reason.length == 0) && RuntimeDataManager.getInstance().getConfig().getBoolean(type.getType().toLowerCase() + ".force-reason")) {
                 sender.sendMessage(ColorParser.parse("&a你必须输入封禁理由"));
                 return;
             }
@@ -44,6 +45,7 @@ public class PunishExecuteUtils {
                     sender.getName(),
                     sender.getUniqueId().toString()
             );
+            MoModeratorPlus.instance.getLogger().info(banStat.toString());
             // 异步写入封禁
             new BukkitRunnable() {
                 @Override

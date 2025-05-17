@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'top.molab.minecraft'
-version = '1.0.2-Beta'
+version = '1.0.3-Beta'
 
 repositories {
     maven { url 'https://repo.carm.cc/repository/maven-public/' }
