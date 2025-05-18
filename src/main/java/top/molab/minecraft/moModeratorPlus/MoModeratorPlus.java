@@ -13,7 +13,7 @@ import top.molab.minecraft.moModeratorPlus.runtimeDataManage.RuntimeDataManager;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-public final class MoModeratorPlus extends JavaPlugin {
+public class MoModeratorPlus extends JavaPlugin {
 
     public static MoModeratorPlus instance;
 
