@@ -4,6 +4,7 @@ package top.molab.minecraft.moModeratorPlus.commands;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -52,14 +53,14 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
         }
         try {
             PunishExecuteUtils.ExecutePunish(
-                banType,
-                args[1],
+                    banType,
+                    args[1],
                     args.length > 3 ? Arrays.copyOfRange(args, 3, args.length) : new String[]{RuntimeDataManager.getInstance().getConfig().getString("global.default-kick-message")},
-                TimeUtils.getTimeStamp(),
-                TimeUtils.getTimeStamp() + TimeUtils.ParseStringToTimeStamp(args[2]),
-                (Player) sender
-        );
-        return true;
+                    TimeUtils.getTimeStamp(),
+                    TimeUtils.getTimeStamp() + TimeUtils.ParseStringToTimeStamp(args[2]),
+                    (Player) sender
+            );
+            return true;
         } catch (IllegalArgumentException e) {
             sender.sendMessage(ColorParser.parse("&c时间格式错误"));
             return true;
@@ -85,7 +86,10 @@ public class MainCommandHandler implements CommandExecutor, TabCompleter {
                     case "ban":
                     case "banip":
                     case "mute":
-                        return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+                        List<String> online = new java.util.ArrayList<>(Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
+                        List<String> offline = Arrays.stream(Bukkit.getOfflinePlayers()).map(OfflinePlayer::getName).toList();
+                        online.addAll(offline);
+                        return online;
                     case "unban":
                         List<String> lst = RuntimeDataManager.getInstance().getLocalDataManager().getAllBanID();
                         lst.addAll(

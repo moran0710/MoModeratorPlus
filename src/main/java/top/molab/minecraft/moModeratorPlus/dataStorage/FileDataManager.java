@@ -16,25 +16,20 @@ import java.util.logging.Level;
  * 使用.yml文件来管理数据
  */
 public class FileDataManager implements ILocalDataManager {
-    private final File FILE = new File(MoModeratorPlus.instance.getDataFolder(), "storage" + File.separator + "banList.yml");
-    private FileConfiguration data;
-
     public final String ROOT = "BanList";
     public final String VERSION_PATH = "Version";
-
     public final String BANID_PATH = "BanID";
     public final String REASON_PATH = "Reason";
     public final String BAN_TYPE_PATH = "BanType";
-
     public final String EFFECTIVE_TIME_PATH = "EffectiveTime";
     public final String EXPIRE_TIME_PATH = "ExpireTime";
-
     public final String PLAYER_NAME_PATH = "PlayerName";
     public final String IP_PATH = "IP";
     public final String UUID_PATH = "UUID";
-
     public final String OPERATOR_PATH = "Operator";
     public final String OPERATOR_UUID_PATH = "OperatorUUID";
+    private final File FILE = new File(MoModeratorPlus.instance.getDataFolder(), "storage" + File.separator + "banList.yml");
+    private FileConfiguration data;
 
 
     public FileDataManager() {
